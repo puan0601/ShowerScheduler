@@ -55,7 +55,7 @@ var express = require("express"),
   // routes for timeSlots
   app.get("/api/timeSlots", controllers.timeSlots.index);
   // app.post("/api/timeSlots", controllers.timeSlots.create);
-  // app.put("/api/timeSlots", controllers.timeSlots.update);
+  app.put("/api/timeSlots/:id", controllers.timeSlots.update);
   // app.delete("/api/timeSlots", controllers.timeSlots.destroy);
 
 
