@@ -22,26 +22,28 @@ var express = require("express"),
 
         {method: "GET", path: "/api", description: "Describes all available endpoints"},
       // users below
-
-
         {method: "GET", path: "/api/users", description: "Get a list of users"},
         {method: "POST", path: "/api/users", description: "Create a new user"},
 
 
-        // {method: "GET", path: "/api/users/:id", description: "Get info on a specific user by id"},
+        {method: "GET", path: "/api/users/:id", description: "Get info on a specific user by id"},
         {method: "PUT", path: "/api/users/:id", description: "Update info on a specific user by id"},
         {method: "DELETE", path: "/api/users/:id", description: "Delete a specific user by id"},
 
       // time slots below  -- GET, PUT, and DELETE functionality for Admin when customizing the schedule
-        {method: "GET", path: "/api/timeSlots", description: "Get a list of timeSlots"}
-        /*
+        {method: "GET", path: "/api/timeSlots", description: "Get a list of timeSlots"},
+
         {method: "GET", path: "/api/timeSlots/:id", description: "Get info on a specific user by id"},
         {method: "PUT", path: "/api/timeSlots/:id", description: "Update info on a specific user by id"},
         {method: "DELETE", path: "/api/timeSlots/:id", description: "Delete a specific user by id"}
-        */
+
       ]
     });
   });
+
+
+
+// JSON API Endpoints
 
   // routes for users
   // app.get("/api/users", controllers.users.index);
