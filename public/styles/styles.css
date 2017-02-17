@@ -1,3 +1,23 @@
 .avail-time {
   background-color: white;
 }
+
+.top-bar {
+  padding: 15px;
+  padding-bottom: 30px;
+  background-color: #cbe6f0;
+}
+
+.top-content {
+  text-align: center;
+  padding-top: 25px;
+  padding-bottom: 10px;
+}
+
+body {
+  background-color: #fafeff;
+}
+
+h4 {
+  text-align: center;
+}
