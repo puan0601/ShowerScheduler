@@ -46,10 +46,10 @@ var express = require("express"),
 // JSON API Endpoints
 
   // routes for users
-  // app.get("/api/users", controllers.users.index);
-  // app.post("/api/users", controllers.users.create);
-  // app.put("/api/users", controllers.users.update);
-  // app.delete("/api/users", controllers.users.destroy);
+  app.get("/api/users", controllers.users.index);
+  // app.post("/api/users", controllers.user.create);
+  app.put("/api/users", controllers.users.update);
+  // app.delete("/api/users", controllers.user.destroy);
 
 
   // routes for timeSlots
