@@ -64,15 +64,17 @@ function populateTimesSuccess(json) {
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               <h4 class="modal-title" id="myModalLabel">Confirm your reservation for time ${(this).time} (FIX THIS) </h4>
             </div>
+
             <div class="modal-body">
-
-              <label>Name:</label>
-              <input type="text" name="name" placeholder="Your name">
-              <br>
-              <label>Email:</label>
-              <input type="text" name="email" placeholder="Your email">
-
+              <form class="entry-form">
+                <label>Name:</label>
+                <input type="text" name="name" placeholder="Your name">
+                <br>
+                <label>Email:</label>
+                <input type="text" name="email" placeholder="Your email">
+              </form>
             </div>
+
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               <button type="button" class="btn btn-primary">Save changes</button>
