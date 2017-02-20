@@ -31,11 +31,11 @@ var express = require("express"),
         {method: "DELETE", path: "/api/users/:id", description: "Delete a specific user by id"},
 
       // time slots below  -- GET, PUT, and DELETE functionality for Admin when customizing the schedule
-        {method: "GET", path: "/api/timeSlots", description: "Get a list of timeSlots"},
+        {method: "GET", path: "/api/timeslots", description: "Get a list of timeSlots"},
 
-        {method: "GET", path: "/api/timeSlots/:id", description: "Get info on a specific user by id"},
-        {method: "PUT", path: "/api/timeSlots/:id", description: "Update info on a specific user by id"},
-        {method: "DELETE", path: "/api/timeSlots/:id", description: "Delete a specific user by id"}
+        {method: "GET", path: "/api/timeslots/:id", description: "Get info on a specific user by id"},
+        {method: "PUT", path: "/api/timeslots/:id", description: "Update info on a specific user by id"},
+        {method: "DELETE", path: "/api/timeslots/:id", description: "Delete a specific user by id"}
 
       ]
     });
