@@ -101,7 +101,7 @@ function handleNewUserSubmit(e) {
   e.preventDefault();
   var $modal = $(".entry-form-modal");
   var $userNameField = $modal.find("#userName");
-  var $trackNumberField = $modal.find("#userEmail");
+  var $emailNumberField = $modal.find("#userEmail");
 
   // get data from modal fields
   // note the server expects the keys to be 'name', 'trackNumber' so we use those.
@@ -110,7 +110,7 @@ function handleNewUserSubmit(e) {
     email: $emailNumberField.val()
   };
   var userId = $modal.data("userId");
-  console.log('retrieved songName:', userName, ' and userEmail:', userEmail, ' for user w/ id: ', userId);
+  console.log('retrieved userName:', userName, ' and userEmail:', userEmail, ' for user w/ id: ', userId);
   // POST to SERVER
   var userPostToServerUrl = '/api/users/'+ userId;
   $.post(userPostToServerUrl, dataToPost, function(data) {
@@ -120,15 +120,15 @@ function handleNewUserSubmit(e) {
     $emailNumberField.val("");
 
     // close modal
-    $modal.modal('hide');
+    $modal.modal("hide");
     // update the correct album to show the new song
-    $.get('/api/timeslots/' + albumId, function(data) {
+    $.get("/api/timeslots/" + timeId, function(data) {
       // remove the current instance of the album from the page
-      $('[data-album-id=' + albumId + ']').remove();
+      $("[data-time-id=" + timeId + "]").remove();
       // re-render it with the new album data (including songs)
       renderAlbum(data);
     });
   }).error(function(err) {
-    console.log('post to /api/albums/:albumId/songs resulted in error', err);
+    console.log("post to /api/albums/:timeId/songs resulted in error", err);
   });
 }
