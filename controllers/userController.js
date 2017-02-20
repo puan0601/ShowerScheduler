@@ -29,8 +29,31 @@ function show(req, res) {
   });
 }
 
+// POST /api/users
+function create(req, res) {
+  // create a user based on request body and send it back as JSON
+  console.log('body', req.body);
+
+  db.User.create(req.body, function(err, user) {
+    if (err) { console.log('error', err); }
+    console.log(user);
+    res.json(user);
+  });
+}
+
+// DELETE /api/users/:userId
+function destroy(req, res) {
+  // find one user by id, delete it, and send it back as JSON
+  db.User.findOneAndRemove({ _id: req.params.id }, function(err, foundUser){
+    res.json(foundUser);
+  });
+}
+
+
 module.exports = {
   index: index,
   update: update,
-  show: show
+  show: show,
+  create: create,
+  destroy: destroy
 }
