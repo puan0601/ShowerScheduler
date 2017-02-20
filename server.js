@@ -49,7 +49,9 @@ var express = require("express"),
   app.get("/api/users", controllers.users.index);
   // app.post("/api/users", controllers.user.create);
   app.put("/api/users/:id", controllers.users.update);
+
   // app.delete("/api/users/:id", controllers.user.destroy);
+
 
 
   // routes for timeSlots
