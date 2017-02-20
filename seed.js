@@ -3,33 +3,32 @@ var db = require("./models");
 var timeSlotList = [
   {
     time: 1,
-    user: "user-a"
+    user: ""
   },
   {
     time: 2,
-    user: "user-b"
+    user: ""
   },
     {
     time: 3,
-    user: "user-c"
+    user: ""
   },
     {
     time: 4,
-    user: "user-d"
+    user: ""
   },
   {
     time: 5,
-    user: "user-e"
+    user: ""
   },
   {
     time: 6,
-    user: "user-f"
+    user: ""
   }
 ];
 
 
 db.TimeSlot.remove({}, function(err, timeSlots){
-  console.log("Db removed");
 
   db.TimeSlot.create(timeSlotList, function(err, timeSlots){
     if (err) { return console.log("Error: " + err ); }
