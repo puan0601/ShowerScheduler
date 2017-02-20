@@ -47,6 +47,7 @@ var express = require("express"),
 
   // routes for users
   app.get("/api/users", controllers.users.index);
+  app.get("/api/users/:id", controllers.users.show);
   // app.post("/api/users", controllers.user.create);
   app.put("/api/users/:id", controllers.users.update);
   // app.delete("/api/users", controllers.user.destroy);
