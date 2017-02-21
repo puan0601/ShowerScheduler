@@ -1,5 +1,4 @@
 
-
 $(document).ready(function(){
   console.log("app.js is loaded!");
 
@@ -42,12 +41,10 @@ function renderAllTimeSlotsSuccess(json) {
     // var currentSelectedTime = $(this).closest('.schedule-button').data('time')
 
     $(".time-table").append(`
-
       <!-- Button trigger modal -->
       <button type="button" class="btn btn-primary btn-lg col-xs-10 col-xs-offset-1 schedule-button" data-target="#entry-form-modal">
         Time: ${json[i].time}
       </button>
-
       <div class="modal fade" id="entry-form-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" time-id:"${json[i]._id}">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -55,7 +52,6 @@ function renderAllTimeSlotsSuccess(json) {
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               <h4 class="modal-title" id="myModalLabel">Confirm your reservation for time ${json[i].time} </h4>
             </div>
-
             <div class="modal-body">
               <form class="entry-form">
                 <label for="userName">Name:</label>
@@ -65,7 +61,6 @@ function renderAllTimeSlotsSuccess(json) {
                 <input id="userEmail" type="text" name="email" placeholder="Your email">
               </form>
             </div>
-
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               <button type="submit" class="btn btn-primary save-user">Confirm</button>
@@ -73,7 +68,6 @@ function renderAllTimeSlotsSuccess(json) {
           </div>
         </div>
       </div>
-
     `);
   }
   $(".time-table").on("click", ".save-user", function(e) {
