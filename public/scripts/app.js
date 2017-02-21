@@ -40,7 +40,7 @@ $(document).ready(function(){
 function renderAllTimeSlotsSuccess(json) {
 
   for (var i = 0; i < json.length; i++){
-
+    console.log(json);
     $(".time-table").append(`
       <!-- Button trigger modal -->
       <button type="button" class="btn btn-primary btn-lg col-xs-10 col-xs-offset-1 schedule-button ${json[i]._id}" data-target="entry-form-modal">
@@ -82,7 +82,7 @@ function renderAllTimeSlotsSuccess(json) {
     $(button_id).css("background-color", "#D3D3D3");
 
     console.log("formData", formData);
-    
+
     $.post("/api/users", formData, function(user) {
       $(".reserved-times-list").prepend(`
         <br>
