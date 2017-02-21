@@ -2,7 +2,6 @@ var $usersList;
 var allUsers= [];
 
 $(document).ready(function(){
-  console.log("app.js is loaded!");
 
   $usersList = $(".reserved-times-list");
   $.ajax({
@@ -95,6 +94,16 @@ function renderAllTimeSlotsSuccess(json) {
         <br>
         <p>
         <img class="green-check"src="/images/green-check.png"><b>Reservation successful</b></p>`);
+
+      $(".reserved-times-list").prepend(`
+        <hr>
+        <p>
+          <b>${user.time}</b>
+          has been reserved by <b>${user.name}</b>
+          <button type="button" name="button" class="deleteBtn btn btn-danger pull-right" data-time-id=${user._id}>Delete</button>
+        </p>
+      `);
+
       $(form_id)[0].reset();
     });
   });
@@ -112,7 +121,7 @@ function renderAllTimesSlotsError(e) {
 function handleSelectTimeClick(e) {
   console.log("add-user clicked!");
   console.log( $(this)._id );
-  var currentTimeSlotId = $(this).closest("form").data("time-id"); // "5665ff1678209c64e51b4e7b"
+  var currentTimeSlotId = $(this).closest("form").data("time-id");
   console.log("time-id", currentTimeSlotId);
   $("#entry-form-modal").data("time-id", currentTimeSlotId);
   $(e.target).next().modal();  // display the modal!  **GOOD CODE SAMPLE FOR PROBLEMS (.next() is essential)
@@ -125,29 +134,31 @@ function deleteUserSuccess(json) {
   var user = json;
   console.log(json);
   var userId = user._id;
-  console.log('delete user', userId);
-  // find the book with the correct ID and remove it from our allBooks array
+
   for(var index = 0; index < allUsers.length; index++) {
     if(allUsers[index]._id === userId) {
       allUsers.splice(index, 1);
-      break;  // we found our book - no reason to keep searching (this is why we didn't use forEach)
+      break;
     }
   }
   render();
 }
 
 function deleteUserError(json) {
-  console.log("Error with delete user button"); // THIS FUNCTION CAN BE DELETED
+  console.log("Error with delete user button");
 }
 
 
 function getUserHtml(user) {
-  return `<hr>
-          <p>
-            <b>${user.time}</b>
-            has been reserved by <b>${user.name}</b>
-            <button type="button" name="button" class="deleteBtn btn btn-danger pull-right" data-time-id=${user._id}>Delete</button>
-          </p>`;
+
+  $(".reserved-times-list").prepend(`
+    <hr>
+    <p>
+      <b>${user.time}</b>
+      has been reserved by <b>${user.name}</b>
+      <button type="button" name="button" class="deleteBtn btn btn-danger pull-right" data-time-id=${user._id}>Delete</button>
+    </p>
+  `);
 }
 
 
