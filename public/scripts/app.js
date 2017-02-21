@@ -91,7 +91,10 @@ function renderAllTimeSlotsSuccess(json) {
 
     console.log("formData", formData);
     $.post("/api/users", formData, function(user) {
-      $(".reserved-times-list").prepend(`<br><p><b>Reservation successful</b></p>`); // this replaces the form with a line of text that says who has reserved the time
+      $(".reserved-times-list").prepend(`
+        <br>
+        <p>
+        <img class="green-check"src="/images/green-check.png"><b>Reservation successful</b></p>`);
       $(form_id)[0].reset();
     });
   });
