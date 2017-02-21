@@ -8,7 +8,6 @@ function index(req, res) {
 
 function update(req, res) {
   db.User.findById(req.params.id, function(err, foundUser){
-    console.log(foundUser);
     if (err) {res.send(err.message);}
     foundUser.name = req.body.name;
     foundUser.email = req.body.email;
@@ -25,16 +24,12 @@ function show(req, res) {
   // find one album by id and send it back as JSON
   db.User.findById(req.params.id, function(err, foundUser) {
     if(err) { console.log('usersController.show error', err); }
-    console.log('usersController.show responding with', foundUser);
     res.json(foundUser);
   });
 }
 
 // POST /api/users
 function create(req, res) {
-  // create a user based on request body and send it back as JSON
-  console.log('body', req.body);
-
   db.User.create(req.body, function(err, user) {
     if (err) { console.log('error', err); }
     console.log(user);
