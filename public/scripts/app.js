@@ -8,76 +8,67 @@ $(document).ready(function(){
     method: "GET",
     url: "/api/timeslots",
     data: $(this).serialize(),
-    success: populateTimesSuccess,
-    error: populateTimesError
+    success: renderAllTimeSlotsSuccess,
+    error: renderAllTimesSlotsError
   });
 
+  $(".save-user").on("click", function(e) {
+    e.preventDefault();
+    console.log("save button clicked!");
 
-// modal form pops up when you click the button
-//    $("#schedulerbuttons").on('submit', function(e) {
-//     e.preventDefault();
-//     var formData = $(this).serialize();
-//     $.post('/api/timeSlots', formData, function(album) {
-//       console.log('album after POST', album);
-//       // renderAlbum(album);  //render the server's response
-//     });
-//     $(this).trigger("reset");
-//   });
+    var formData = $(this).serialize();
+    console.log("formData", formData);
+    $.post("/api/users", formData, function(user) {
+      console.log("user after POST", user);
+      renderAlbum(user);  //render the server's response
+    });
+    $(this).trigger("reset");
+  });
 
-//   $("#albums").on("click", ".add-song", function(e){
-//     var id = $(this).parents(".album").attr("data-album-id");
-//     $("#songModal").attr("data-album-id", id);
-//     $("#songModal").modal();
-//   });
+    // catch and handle the click on an add song button
+    $(".time-table").on("click", ".schedule-button", handleSelectTimeClick);
 
-//   $("#saveSong").on("click", handleNewSongSubmit);
-
-// });
+    // save song modal save button
+    $(".save-user").on("click", handleNewUserSubmit);
 
 
+}); //end of $(document).ready
 
 
-
-    // $("#schedulerbuttons").on('click', 'button', function() {
-    //     $("#entryform").toggleClass('hidden');
-    // });
-
-
-
-
-});
 
 // need to work on styling these buttons later
-function populateTimesSuccess(json) {
+function renderAllTimeSlotsSuccess(json) {
   for (var i = 0; i < json.length; i++){
+    // var currentSelectedTime = $(this).closest('.schedule-button').data('time')
+
     $(".time-table").append(`
 
       <!-- Button trigger modal -->
-      <button type="button" class="btn btn-primary btn-lg col-xs-10 col-xs-offset-1" data-toggle="modal" data-target="#myModal">
+      <button type="button" class="btn btn-primary btn-lg col-xs-10 col-xs-offset-1 schedule-button" data-target="#entry-form-modal">
         Time: ${json[i].time}
       </button>
 
-      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal fade" id="entry-form-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" time-id:"${json[i]._id}">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="myModalLabel">Confirm your reservation for time ${(this).time} (FIX THIS) </h4>
+              <h4 class="modal-title" id="myModalLabel">Confirm your reservation for time ${json[i].time} </h4>
             </div>
 
             <div class="modal-body">
               <form class="entry-form">
-                <label>Name:</label>
-                <input type="text" name="name" placeholder="Your name">
+                <label for="userName">Name:</label>
+                <input id="userName" type="text" name="name" placeholder="Your name" required>
                 <br>
-                <label>Email:</label>
-                <input type="text" name="email" placeholder="Your email">
+                <label for="userEmail">Email:</label>
+                <input id="userEmail" type="text" name="email" placeholder="Your email">
               </form>
             </div>
 
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
+              <button type="submit" class="btn btn-primary save-user">Confirm</button>
             </div>
           </div>
         </div>
@@ -87,42 +78,57 @@ function populateTimesSuccess(json) {
   }
 }
 
-  /* <button type="submit" class="col-xs-10 col-xs-offset-1 btn-primary">
-          Time: ${json[i].time}
-      </button> */
-
-function populateTimesError(e) {
+function renderAllTimesSlotsError(e) {
   $(".time-table").text("Failed to load schedule, is the server working?");
 }
 
 
 
+// when the time button is clicked, display the modal
+function handleSelectTimeClick(e) {
+  console.log("add-user clicked!");
+  console.log( $(this)._id );
+  var currentTimeSlotId = $(this).closest("form").data("time-id"); // "5665ff1678209c64e51b4e7b"
+  console.log("time-id", currentTimeSlotId);
+  $("#entry-form-modal").data("time-id", currentTimeSlotId);
+  $(e.target).next().modal();  // display the modal!  **GOOD CODE SAMPLE FOR PROBLEMS (.next() is essential)
+}
 
 
 
-// <!-- Modal -->
-//       <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-//         <div class="modal-dialog" role="document">
-//           <div class="modal-content">
-//             <div class="modal-header">
-//               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-//               <h4 class="modal-title" id="myModalLabel">Please enter your information to confirm your selection</h4>
-//             </div>
-//             <div class="modal-body">
+// when the song modal submit button is clicked:
+function handleNewUserSubmit(e) {
+  e.preventDefault();
+  var $modal = $("#entry-form-modal");
+  var $userNameField = $modal.find("#userName");
+  var $emailNumberField = $modal.find("#userEmail");
 
-//             <form id="entryform" class="col-md-4 control-label">
-//               <fieldset class='form-horizontal'>
-//               <p>test</p>
-//             <input class="form-control input-md" type="text" name="name" placeholder="Your name">
-//             <br>
-//             <input type="text" name="email" placeholder="Your email">
+  // get data from modal fields
+  // note the server expects the keys to be 'name', 'trackNumber' so we use those.
+  var dataToPost = {
+    name: $userNameField.val(),
+    email: $emailNumberField.val()
+  };
+  var userId = $modal.data("userId");
+  console.log('retrieved userName:', userName, ' and userEmail:', userEmail, ' for user w/ id: ', userId);
+  // POST to SERVER
+  var userPostToServerUrl = '/api/users/'+ userId;
+  $.post(userPostToServerUrl, dataToPost, function(data) {
+    console.log('received data from post to /users:', data);
+    // clear form
+    $userNameField.val("");
+    $emailNumberField.val("");
 
-//             </div>
-//             <div class="modal-footer">
-//               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-//               <button type="submit" class="btn btn-primary">Submit</button>
-//             </div>
-//           </div>
-//         </div>
-
-//       </div>
+    // close modal
+    $modal.modal("hide");
+    // update the correct album to show the new song
+    $.get("/api/timeslots/" + timeId, function(data) {
+      // remove the current instance of the album from the page
+      $("[data-time-id=" + timeId + "]").remove();
+      // re-render it with the new album data (including songs)
+      renderAlbum(data);
+    });
+  }).error(function(err) {
+    console.log("post to /api/user/:timeId/ resulted in error", err);
+  });
+}
