@@ -30,7 +30,7 @@ $(document).ready(function(){
 
 
 
-}); //end of $(document).ready
+}); //end of $(document).ready(function(){})
 
 
 
@@ -79,7 +79,9 @@ $("button.save-user").on("click",function(e) {
     console.log("formData", formData);
     $.post("/api/users", formData, function(user) {
       console.log("user after POST", user);
-      // renderAlbum(user);  //render the server's response
+
+      $(form_id).append(`<br><p><strong>This time has already been reserved by: ${user.name}</strong></p>`); // this replaces the form with a line of text that says who has reserved the time
+
     });
     $(this).trigger("reset");
   });
