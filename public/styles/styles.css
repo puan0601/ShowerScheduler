@@ -10,7 +10,26 @@ form {
 .top-row {
   padding: 15px;
   padding-bottom: 30px;
-  background-color: #cbe6f0;
+  background-color: white;
+}
+
+.logo {
+  max-height: 50px;
+}
+
+.logo-welcome {
+  max-height: 40px;
+  margin-top: 40px;
+  margin-bottom: 30px
+  display: center block;
+
+}
+
+.logo-showerly {
+  max-height: 75px;
+  margin-top: 15px;
+
+
 }
 
 .top-content {
@@ -21,13 +40,29 @@ form {
 
 body {
   background-color: #fafeff;
+  color: grey;
 }
 
 h4 {
   text-align: center;
 }
 
-footer {
-  display: block
+.schedule-button {
+  border: 2px solid #4682B4;
+  background-color: white;
+  color: #4682B4;
+  margin-top: 3px;
 }
 
+.reservation-table {
+  margin-top: 30px;
+  display: block;
+}
+
+.reserved-time {
+  color: grey;
+}
+
+.green-check {
+  max-height: 20px;
+}

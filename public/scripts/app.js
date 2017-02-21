@@ -12,7 +12,7 @@ $(document).ready(function(){
     error: handleUsersError
   });
 
-// this is the ajax request that handles populating the times listed in seed.js onto the main page
+
   $.ajax({
     method: "GET",
     url: "/api/timeslots",
@@ -24,13 +24,13 @@ $(document).ready(function(){
 
 
   $usersList.on('click', '.deleteBtn', function() {
-    console.log('clicked delete button to', '/api/users/'+$(this).attr("data-time-id"));
     $.ajax({
       method: 'DELETE',
       url: '/api/users/'+$(this).attr("data-time-id"),
       success: deleteUserSuccess,
       error: deleteUserError
     });
+
   });
 
     $(".time-table").on("click", ".schedule-button", handleSelectTimeClick);
@@ -38,11 +38,12 @@ $(document).ready(function(){
 }); //end of $(document).ready(function(){})
 
 function renderAllTimeSlotsSuccess(json) {
+
   for (var i = 0; i < json.length; i++){
 
     $(".time-table").append(`
       <!-- Button trigger modal -->
-      <button type="button" class="btn btn-primary btn-lg col-xs-10 col-xs-offset-1 schedule-button" data-target="entry-form-modal">
+      <button type="button" class="btn btn-primary btn-lg col-xs-10 col-xs-offset-1 schedule-button ${json[i]._id}" data-target="entry-form-modal">
         ${json[i].time}
       </button>
       <div class="modal fade entry-form-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-time-id="${json[i]._id}">
@@ -70,19 +71,29 @@ function renderAllTimeSlotsSuccess(json) {
         </div>
       </div>
     `);
-
   }
 
-$("button.save-user").on("click",function(e) {
+
+  $("button.save-user").on("click",function(e) {
     e.preventDefault();
     var form_id = "#" + $(e.target).attr("data-form-number");
     var formData = $(form_id).serialize();
+    var button_id = "." + $(e.target).attr("data-form-number")
+    $(button_id).css("background-color", "#D3D3D3");
+
+    console.log("formData", formData);
+    
     $.post("/api/users", formData, function(user) {
-      $(".reserved-times-list").prepend(`<br><p><b>Reservation successful</b></p>`); // this replaces the form with a line of text that says who has reserved the time
+      $(".reserved-times-list").prepend(`
+        <br>
+        <p>
+        <img class="green-check"src="/images/green-check.png"><b>Reservation successful</b></p>`);
       $(form_id)[0].reset();
     });
   });
 }
+
+
 
 function renderAllTimesSlotsError(e) {
   $(".time-table").text("Failed to load schedule, is the server working?");
@@ -148,6 +159,6 @@ function render () {
   $usersList.empty();
 
   var userHtml = getAllUsersHtml(allUsers);
-  // append html to the view
-  $usersList.append(userHtml);
+  $usersList.prepend(userHtml);
+
 };

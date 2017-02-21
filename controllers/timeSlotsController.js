@@ -8,7 +8,6 @@ function index(req,res) {
 
 function update(req, res) {
   db.TimeSlot.findById(req.params.id, function(err, foundTimeSlot){
-    console.log(foundTimeSlot)
     if (err) {res.send(err.message);}
     foundTimeSlot.user = req.body.user;
     foundTimeSlot.save(function(err, savedTimeSlot){
@@ -19,10 +18,8 @@ function update(req, res) {
 }
 
 function show(req, res) {
-  // find one album by id and send it back as JSON
   db.TimeSlot.findById(req.params.id, function(err, foundTimeSlot) {
     if(err) { console.log('timeSlotsController.show error', err); }
-    console.log('timeSlotsController.show responding with', foundTimeSlot);
     res.json(foundTimeSlot);
   });
 }
