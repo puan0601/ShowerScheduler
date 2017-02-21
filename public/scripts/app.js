@@ -80,20 +80,20 @@ function renderAllTimeSlotsSuccess(json) {
     var button_id = "." + $(e.target).attr("data-form-number")
     $(button_id).css("background-color", "#D3D3D3");
 
-    console.log("formData", formData);
+
 
     $.post("/api/users", formData, function(data) {
       $(".reserved-times-list").prepend(`
         <br>
         <p>
         <img class="green-check"src="/images/green-check.png"><b>Reservation successful</b></p>`);
-  console.log("created .....:",user)
+
       $(".reserved-times-list").prepend(`
         <hr>
         <p>
           <b>${data.time}</b>
           has been reserved by <b>${data.user.name}</b>
-          <button type="button" name="button" class="deleteBtn btn btn-danger pull-right" data-time-id=${user._id}>Delete</button>
+          <button type="button" name="button" class="deleteBtn btn btn-danger pull-right" data-time-id=${data._id}>Delete</button>
         </p>
       `);
 
@@ -102,22 +102,16 @@ function renderAllTimeSlotsSuccess(json) {
   });
 }
 
-
-
 function renderAllTimesSlotsError(e) {
   $(".time-table").text("Failed to load schedule, is the server working?");
 }
-
-
 
 // when the time button is clicked, display the modal
 function handleSelectTimeClick(e) {
   var currentTimeSlotId = $(this).closest("form").data("time-id");
   $("#entry-form-modal").data("time-id", currentTimeSlotId);
-  $(e.target).next().modal();  // display the modal!  **GOOD CODE SAMPLE FOR PROBLEMS (.next() is essential)
+  $(e.target).next().modal();  // display the respective modal!
 }
-
-
 
 // to delete users
 function deleteUserSuccess(json) {
@@ -138,14 +132,14 @@ function deleteUserError(json) {
 }
 
 
-function getUserHtml(user) {
+function getUserHtml(data) {
 
   $(".reserved-times-list").prepend(`
     <hr>
     <p>
-      <b>${user.time}</b>
-      has been reserved by <b>${user.name}</b>
-      <button type="button" name="button" class="deleteBtn btn btn-danger pull-right" data-time-id=${user._id}>Delete</button>
+      <b>${data.time}</b>
+      has been reserved by <b>${data.name}</b>
+      <button type="button" name="button" class="deleteBtn btn btn-danger pull-right" data-time-id=${data._id}>Delete</button>
     </p>
   `);
 }
@@ -167,9 +161,7 @@ function handleUsersError(e) {
 
 // note: we empty and re-render the collection each time our post data changes
 function render () {
-
   $usersList.empty();
-
   var userHtml = getAllUsersHtml(allUsers);
   $usersList.prepend(userHtml);
 
