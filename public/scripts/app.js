@@ -32,23 +32,14 @@ $(document).ready(function(){
 
   });
 
-    // catch and handle the click on an add song button
     $(".time-table").on("click", ".schedule-button", handleSelectTimeClick);
-
-    // save user modal save button
-
-
 
 }); //end of $(document).ready(function(){})
 
-
-
-// need to work on styling these buttons later
 function renderAllTimeSlotsSuccess(json) {
 
   for (var i = 0; i < json.length; i++){
-    // var currentSelectedTime = $(this).closest('.schedule-button').data('time')
-
+    console.log(json);
     $(".time-table").append(`
       <!-- Button trigger modal -->
       <button type="button" class="btn btn-primary btn-lg col-xs-10 col-xs-offset-1 schedule-button ${json[i]._id}" data-target="entry-form-modal">
@@ -81,6 +72,7 @@ function renderAllTimeSlotsSuccess(json) {
     `);
   }
 
+
   $("button.save-user").on("click",function(e) {
     e.preventDefault();
     var form_id = "#" + $(e.target).attr("data-form-number");
@@ -89,6 +81,7 @@ function renderAllTimeSlotsSuccess(json) {
     $(button_id).css("background-color", "#D3D3D3");
 
     console.log("formData", formData);
+
     $.post("/api/users", formData, function(user) {
       $(".reserved-times-list").prepend(`
         <br>
@@ -119,10 +112,7 @@ function renderAllTimesSlotsError(e) {
 
 // when the time button is clicked, display the modal
 function handleSelectTimeClick(e) {
-  console.log("add-user clicked!");
-  console.log( $(this)._id );
   var currentTimeSlotId = $(this).closest("form").data("time-id");
-  console.log("time-id", currentTimeSlotId);
   $("#entry-form-modal").data("time-id", currentTimeSlotId);
   $(e.target).next().modal();  // display the modal!  **GOOD CODE SAMPLE FOR PROBLEMS (.next() is essential)
 }
@@ -132,7 +122,6 @@ function handleSelectTimeClick(e) {
 // to delete users
 function deleteUserSuccess(json) {
   var user = json;
-  console.log(json);
   var userId = user._id;
 
   for(var index = 0; index < allUsers.length; index++) {
@@ -173,11 +162,9 @@ function handleUsersSuccess(json) {
 }
 
 function handleUsersError(e) {
-  console.log('uh oh');
   $('.reserved-times-list').text('Failed to load users, is the server working?');
 }
 
-// helper function to render all posts to view
 // note: we empty and re-render the collection each time our post data changes
 function render () {
 
@@ -187,6 +174,3 @@ function render () {
   $usersList.prepend(userHtml);
 
 };
-
-
-

@@ -1,9 +1,10 @@
 var mongoose = require("mongoose"),
-  Schema = mongoose.Schema;
+  Schema = mongoose.Schema,
+  User = require("./user");
 
 var TimeSlotSchema = new Schema({
   time: String,
-  user: String
+  user: User.schema
 });
 
 var TimeSlot = mongoose.model("TimeSlot", TimeSlotSchema);

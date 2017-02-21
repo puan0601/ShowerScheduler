@@ -10,7 +10,27 @@ var userList = [
     name: 'Christen',
     email: 'christen@anton.com',
     time: '7:00am - 8:00am'
-}
+  },
+  {
+    name: 'Christen',
+    email: 'christen@anton.com',
+    time: '8:00am - 9:00am'
+  },
+  {
+    name: 'Christen',
+    email: 'christen@anton.com',
+    time: '6:00pm - 7:00pm'
+  },
+  {
+    name: 'Christen',
+    email: 'christen@anton.com',
+    time: '7:00pm - 8:00pm'
+  },
+  {
+    name: 'Christen',
+    email: 'christen@anton.com',
+    time: '8:00pm - 9:00pm'
+  },
 ];
 
 var timeSlotList = [
@@ -41,17 +61,18 @@ var timeSlotList = [
 ];
 
 
-db.TimeSlot.remove({}, function(err, timeSlots){
-
-  db.TimeSlot.create(timeSlotList, function(err, timeSlots){
-    if (err) { return console.log("Error: " + err ); }
-  });
-});
-
 db.User.remove({}, function(err, users) {
-
+  console.log(1);
   db.User.create(userList, function(err, users){
     if (err) { return console.log("Error: " + err ); }
-    process.exit();
+    console.log(3);
+    db.TimeSlot.remove({}, function(err, timeSlots){
+      console.log(0);
+      db.TimeSlot.create(timeSlotList, function(err, timeSlots){
+        if (err) { return console.log("Error: " + err ); }
+        console.log(2);
+        process.exit();
+      });
+    });
   });
 });
