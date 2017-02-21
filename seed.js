@@ -3,24 +3,14 @@ var db = require("./models");
 var userList = [
   {
     name: 'Anton',
-    email: 'anton@anton.com'
+    email: 'anton@anton.com',
+    time: '6:00am - 7:00am'
   },
   {
     name: 'Christen',
-    email: 'christen@anton.com'
-  },
-  {
-    name: 'Shiv',
-    email: 'shiv@anton.com'
-  },
-  {
-    name: 'Test',
-    email: 'atest@anton.com'
-  },
-  {
-    name: 'Tester',
-    email: 'atester@anton.com'
-  }
+    email: 'christen@anton.com',
+    time: '7:00am - 8:00am'
+}
 ];
 
 var timeSlotList = [

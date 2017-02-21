@@ -7,7 +7,7 @@ form {
   margin: 30px;
 }
 
-.top-bar {
+.top-row {
   padding: 15px;
   padding-bottom: 30px;
   background-color: #cbe6f0;
@@ -25,5 +25,9 @@ body {
 
 h4 {
   text-align: center;
+}
+
+footer {
+  display: block
 }
 
