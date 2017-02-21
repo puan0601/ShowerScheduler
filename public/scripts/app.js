@@ -82,17 +82,17 @@ function renderAllTimeSlotsSuccess(json) {
 
     console.log("formData", formData);
 
-    $.post("/api/users", formData, function(user) {
+    $.post("/api/users", formData, function(data) {
       $(".reserved-times-list").prepend(`
         <br>
         <p>
         <img class="green-check"src="/images/green-check.png"><b>Reservation successful</b></p>`);
-
+  console.log("created .....:",user)
       $(".reserved-times-list").prepend(`
         <hr>
         <p>
-          <b>${user.time}</b>
-          has been reserved by <b>${user.name}</b>
+          <b>${data.time}</b>
+          has been reserved by <b>${data.user.name}</b>
           <button type="button" name="button" class="deleteBtn btn btn-danger pull-right" data-time-id=${user._id}>Delete</button>
         </p>
       `);
