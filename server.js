@@ -49,7 +49,7 @@ var express = require("express"),
   app.get("/api/users", controllers.users.index);
   app.post("/api/users", controllers.users.create);
   app.delete("/api/users/:id", controllers.users.destroy);
-  // app.post("/api/users", controllers.user.create);
+  app.get("/api/users/:id", controllers.users.show);
   app.put("/api/users/:id", controllers.users.update);
 
   // app.delete("/api/users/:id", controllers.user.destroy);
@@ -60,7 +60,7 @@ var express = require("express"),
   // app.post("/api/timeSlots", controllers.timeSlots.create);
   app.put("/api/timeSlots/:id", controllers.timeSlots.update);
   // app.delete("/api/timeSlots", controllers.timeSlots.destroy);
-
+  app.get("/api/timeSlots/:id", controllers.timeSlots.show);
 
 
 app.listen(process.env.PORT || 3000, function () {

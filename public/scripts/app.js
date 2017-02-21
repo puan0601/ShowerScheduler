@@ -1,3 +1,5 @@
+
+
 $(document).ready(function(){
   console.log("app.js is loaded!");
 
@@ -23,11 +25,11 @@ $(document).ready(function(){
   //   $(this).trigger("reset");
   // });
 
-    // catch and handle the click on an add song button
+    // catch and handle the click on an add user button
     $(".time-table").on("click", ".schedule-button", handleSelectTimeClick);
 
-    // save user modal save button
-
+    // save song modal save button
+    $(".save-user").on("click", handleNewUserSubmit);
 
 
 }); //end of $(document).ready
@@ -40,48 +42,53 @@ function renderAllTimeSlotsSuccess(json) {
     // var currentSelectedTime = $(this).closest('.schedule-button').data('time')
 
     $(".time-table").append(`
+
       <!-- Button trigger modal -->
-      <button type="button" class="btn btn-primary btn-lg col-xs-10 col-xs-offset-1 schedule-button" data-target="entry-form-modal">
+      <button type="button" class="btn btn-primary btn-lg col-xs-10 col-xs-offset-1 schedule-button" data-target="#entry-form-modal">
         Time: ${json[i].time}
       </button>
-      <div class="modal fade entry-form-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-time-id="${json[i]._id}">
+
+      <div class="modal fade" id="entry-form-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" time-id:"${json[i]._id}">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title myModalLabel">Confirm your reservation for time ${json[i].time} </h4>
+              <h4 class="modal-title" id="myModalLabel">Confirm your reservation for time ${json[i].time} </h4>
             </div>
+
             <div class="modal-body">
-              <form id="${json[i]._id}" class="entry-form">
+              <form class="entry-form">
                 <label for="userName">Name:</label>
-                <input class="userName" type="text" name="name" placeholder="Your name" required="">
+                <input id="userName" type="text" name="name" placeholder="Your name" required>
                 <br>
                 <label for="userEmail">Email:</label>
-                <input class="userEmail" type="text" name="email" placeholder="Your email">
+                <input id="userEmail" type="text" name="email" placeholder="Your email">
               </form>
             </div>
+
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary save-user"  data-dismiss="modal" data-form-number="${json[i]._id}">Confirm</button>
+              <button type="submit" class="btn btn-primary save-user">Confirm</button>
             </div>
           </div>
         </div>
       </div>
+
     `);
   }
-
-
-$("button.save-user").on("click",function(e) {
+  $(".time-table").on("click", ".save-user", function(e) {
     e.preventDefault();
-    var form_id = "#" + $(e.target).attr("data-form-number");
-    var formData = $(form_id).serialize();
-    // var formData = $('.entry-form').serialize();
+
+    console.log("save button clicked!");
+
+    var formData = $('.entry-form').serialize();
     console.log("formData", formData);
     $.post("/api/users", formData, function(user) {
       console.log("user after POST", user);
       // renderAlbum(user);  //render the server's response
     });
     $(this).trigger("reset");
+    $(this).css('background-color', 'gray');
   });
 }
 
@@ -106,11 +113,9 @@ function handleSelectTimeClick(e) {
 // when the song modal submit button is clicked:
 function handleNewUserSubmit(e) {
   e.preventDefault();
-  console.log("hi");
-  console.log($(e.target).data);
-  var $modal = $(e.target);
-  var $userNameField = $modal.find(".userName");
-  var $emailNumberField = $modal.find(".userEmail");
+  var $modal = $("#entry-form-modal");
+  var $userNameField = $modal.find("#userName");
+  var $emailNumberField = $modal.find("#userEmail");
 
   // get data from modal fields
   // note the server expects the keys to be 'name', 'email' so we use those.
