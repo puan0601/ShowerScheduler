@@ -80,7 +80,7 @@ function renderAllTimeSlotsSuccess(json) {
     var button_id = "." + $(e.target).attr("data-form-number")
     $(button_id).css("background-color", "#D3D3D3");
 
-
+    console.log("user, " + user);
 
     $.post("/api/users", formData, function(data) {
       $(".reserved-times-list").prepend(`
