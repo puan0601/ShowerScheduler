@@ -25,27 +25,27 @@ var userList = [
 
 var timeSlotList = [
   {
-    time: 1,
+    time: '6:00am - 7:00am',
     user: ""
   },
   {
-    time: 2,
+    time: '7:00am - 8:00am',
     user: ""
   },
     {
-    time: 3,
+    time: '8:00am - 9:00am',
     user: ""
   },
     {
-    time: 4,
+    time: '6:00pm - 7:00pm',
     user: ""
   },
   {
-    time: 5,
+    time: '7:00pm - 8:00pm',
     user: ""
   },
   {
-    time: 6,
+    time: '8:00pm - 9:00pm',
     user: ""
   }
 ];
@@ -59,7 +59,7 @@ db.TimeSlot.remove({}, function(err, timeSlots){
 });
 
 db.User.remove({}, function(err, users) {
-  
+
   db.User.create(userList, function(err, users){
     if (err) { return console.log("Error: " + err ); }
     process.exit();
