@@ -26,7 +26,7 @@ $(document).ready(function(){
   });
 
     // catch and handle the click on an add song button
-    $(".time-table").on("click", ".schedule-button", handleAddUserClick);
+    $(".time-table").on("click", ".schedule-button", handleSelectTimeClick);
 
     // save song modal save button
     $(".save-user").on("click", handleNewUserSubmit);
@@ -44,9 +44,8 @@ function renderAllTimeSlotsSuccess(json) {
     $(".time-table").append(`
 
       <!-- Button trigger modal -->
-      <button type="button" class="btn btn-primary btn-lg col-xs-10 col-xs-offset-1 schedule-button" data-toggle="modal" data-target="#entry-form-modal">
+      <button type="button" class="btn btn-primary btn-lg col-xs-10 col-xs-offset-1 schedule-button" data-target="#entry-form-modal">
         Time: ${json[i].time}
-        id: ${json[i]._id}
       </button>
 
       <div class="modal fade" id="entry-form-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" time-id:"${json[i]._id}">
@@ -54,7 +53,7 @@ function renderAllTimeSlotsSuccess(json) {
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="myModalLabel">Confirm your reservation for time ${json[i].time} (FIX THIS) </h4>
+              <h4 class="modal-title" id="myModalLabel">Confirm your reservation for time ${json[i].time} </h4>
             </div>
 
             <div class="modal-body">
@@ -85,13 +84,14 @@ function renderAllTimesSlotsError(e) {
 
 
 
-// when the add song button is clicked, display the modal
-function handleAddUserClick(e) {
+// when the time button is clicked, display the modal
+function handleSelectTimeClick(e) {
   console.log("add-user clicked!");
+  console.log( $(this)._id );
   var currentTimeSlotId = $(this).closest("form").data("time-id"); // "5665ff1678209c64e51b4e7b"
   console.log("time-id", currentTimeSlotId);
-  $(".entry-form-modal").data("time-id", currentTimeSlotId);
-  $(".entry-form-modal").modal();  // display the modal!
+  $("#entry-form-modal").data("time-id", currentTimeSlotId);
+  $(e.target).next().modal();  // display the modal!  **GOOD CODE SAMPLE FOR PROBLEMS (.next() is essential)
 }
 
 
@@ -99,7 +99,7 @@ function handleAddUserClick(e) {
 // when the song modal submit button is clicked:
 function handleNewUserSubmit(e) {
   e.preventDefault();
-  var $modal = $(".entry-form-modal");
+  var $modal = $("#entry-form-modal");
   var $userNameField = $modal.find("#userName");
   var $emailNumberField = $modal.find("#userEmail");
 
@@ -129,6 +129,6 @@ function handleNewUserSubmit(e) {
       renderAlbum(data);
     });
   }).error(function(err) {
-    console.log("post to /api/albums/:timeId/songs resulted in error", err);
+    console.log("post to /api/user/:timeId/ resulted in error", err);
   });
 }
