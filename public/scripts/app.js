@@ -80,7 +80,7 @@ $("button.save-user").on("click",function(e) {
     $.post("/api/users", formData, function(user) {
       console.log("user after POST", user);
 
-      $(form_id).append(`<br><p><b>This time has already been reserved by: ${user.name}</b></p>`); // this replaces the form with a line of text that says who has reserved the time
+      $(".reservation-response").append(`<br><p><b>Reservation for ${user.name} was successful</b></p>`); // this replaces the form with a line of text that says who has reserved the time
 
     });
     $(this).trigger("reset");
