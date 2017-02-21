@@ -2,7 +2,7 @@ var mongoose = require("mongoose"),
   Schema = mongoose.Schema;
 
 var TimeSlotSchema = new Schema({
-  time: Number,
+  time: String,
   user: String
 });
 

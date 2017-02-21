@@ -42,7 +42,7 @@ function renderAllTimeSlotsSuccess(json) {
     $(".time-table").append(`
       <!-- Button trigger modal -->
       <button type="button" class="btn btn-primary btn-lg col-xs-10 col-xs-offset-1 schedule-button" data-target="entry-form-modal">
-        Time: ${json[i].time}
+        ${json[i].time}
       </button>
       <div class="modal fade entry-form-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-time-id="${json[i]._id}">
         <div class="modal-dialog" role="document">
