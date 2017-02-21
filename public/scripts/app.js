@@ -1,5 +1,10 @@
+var $usersList;
+var allUsers= [];
+
 $(document).ready(function(){
   console.log("app.js is loaded!");
+
+  $usersList = $(".reserved-times-list");
 
 // this is the ajax request that handles populating the times listed in seed.js onto the main page
   $.ajax({
@@ -10,18 +15,17 @@ $(document).ready(function(){
     error: renderAllTimesSlotsError
   });
 
-  // $(".save-user").on("click", function(e) {
-  //   e.preventDefault();
-  //   console.log("save button clicked!");
-  //
-  //   var formData = $(this).serialize();
-  //   console.log("formData", formData);
-  //   $.post("/api/users", formData, function(user) {
-  //     console.log("user after POST", user);
-  //     renderAlbum(user);  //render the server's response
-  //   });
-  //   $(this).trigger("reset");
-  // });
+
+
+  $usersList.on('click', '.deleteBtn', function() {
+    console.log('clicked delete button to', '/api/users/'+$(this).attr("data-time-id"));
+    $.ajax({
+      method: 'DELETE',
+      url: '/api/users/'+$(this).attr("data-time-id"),
+      success: deleteUserSuccess,
+      error: deleteUserError
+    });
+  });
 
     // catch and handle the click on an add song button
     $(".time-table").on("click", ".schedule-button", handleSelectTimeClick);
@@ -68,6 +72,15 @@ function renderAllTimeSlotsSuccess(json) {
         </div>
       </div>
     `);
+
+    // $(".reserved-times-list").append(`
+    //   <hr>
+    //       <p>
+    //         <b>${json[i].time}</b>
+    //         by ${json[i].user}
+    //         <button type="button" name="button" class="deleteBtn btn btn-danger pull-right" data-time-id=${user._id}>Delete</button>
+    //       </p>
+    //   `);
   }
 
 
@@ -78,12 +91,10 @@ $("button.save-user").on("click",function(e) {
     // var formData = $('.entry-form').serialize();
     console.log("formData", formData);
     $.post("/api/users", formData, function(user) {
-      console.log("user after POST", user);
-
-      $(form_id).append(`<br><p><b>This time has already been reserved by: ${user.name}</b></p>`); // this replaces the form with a line of text that says who has reserved the time
-
+      $(".reserved-times-list").prepend(`<br><p><b>Reservation successful</b></p>`); // this replaces the form with a line of text that says who has reserved the time
+      $(form_id)[0].reset();
     });
-    $(this).trigger("reset");
+
   });
 }
 
@@ -105,41 +116,37 @@ function handleSelectTimeClick(e) {
 
 
 
-// when the song modal submit button is clicked:
-function handleNewUserSubmit(e) {
-  e.preventDefault();
-  console.log("hi");
-  console.log($(e.target).data);
-  var $modal = $(e.target);
-  var $userNameField = $modal.find(".userName");
-  var $emailNumberField = $modal.find(".userEmail");
-
-  // get data from modal fields
-  // note the server expects the keys to be 'name', 'email' so we use those.
-  var dataToPost = {
-    name: $userNameField.val(),
-    email: $emailNumberField.val()
-  };
-  var userId = $modal.data("userId");
-  console.log('retrieved userName:', userName, ' and userEmail:', userEmail, ' for user w/ id: ', userId);
-  // POST to SERVER
-  var userPostToServerUrl = '/api/users/'+ userId;
-  $.post(userPostToServerUrl, dataToPost, function(data) {
-    console.log('received data from post to /users:', data);
-    // clear form
-    $userNameField.val("");
-    $emailNumberField.val("");
-
-    // close modal
-    $modal.modal("hide");
-    // update the correct album to show the new song
-    $.get("/api/timeslots/" + timeId, function(data) {
-      // remove the current instance of the album from the page
-      $("[data-time-id=" + timeId + "]").remove();
-      // re-render it with the new album data (including songs)
-      renderAlbum(data);
-    });
-  }).error(function(err) {
-    console.log("post to /api/user/:timeId/ resulted in error", err);
-  });
+// to delete users
+function deleteUserSuccess(json) {
+  var user = json;
+  console.log(json);
+  var userId = user._id;
+  console.log('delete user', userId);
+  // find the book with the correct ID and remove it from our allBooks array
+  for(var index = 0; index < allUsers.length; index++) {
+    if(allUsers[index]._id === userId) {
+      allUsers.splice(index, 1);
+      break;  // we found our book - no reason to keep searching (this is why we didn't use forEach)
+    }
+  }
+  render();
 }
+
+
+
+// helper function to render all posts to view
+// note: we empty and re-render the collection each time our post data changes
+function render () {
+  // empty existing posts from view
+  $usersList.empty();
+  // pass `allBooks` into the template function
+  var userHtml = getAllUsersHtml(allUsers);
+  // append html to the view
+  $usersList.append(userHtml);
+};
+
+
+function getAllUsersHtml(users) {
+  return users.map(getUserHtml).join("");
+}
+
