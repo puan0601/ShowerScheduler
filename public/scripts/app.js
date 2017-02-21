@@ -68,6 +68,7 @@ function renderAllTimeSlotsSuccess(json) {
                 <br>
                 <label for="userEmail">Email:</label>
                 <input class="userEmail" type="text" name="email" placeholder="Your email">
+                <input class="time" type="hidden" name="time" value="${json[i].time}">
               </form>
             </div>
             <div class="modal-footer">
@@ -138,8 +139,8 @@ function deleteUserError(json) {
 function getUserHtml(user) {
   return `<hr>
           <p>
-            <b>TIME</b>
-            has been reserved by ${user.name}
+            <b>${user.time}</b>
+            has been reserved by <b>${user.name}</b>
             <button type="button" name="button" class="deleteBtn btn btn-danger pull-right" data-time-id=${user._id}>Delete</button>
           </p>`;
 }

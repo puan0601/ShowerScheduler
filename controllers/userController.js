@@ -12,6 +12,7 @@ function update(req, res) {
     if (err) {res.send(err.message);}
     foundUser.name = req.body.name;
     foundUser.email = req.body.email;
+    foundUser.time = req.body.time;
     foundUser.save(function(err, savedUser){
       if (err) { res.send(err.message); }
       res.json(savedUser);
