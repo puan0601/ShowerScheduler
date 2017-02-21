@@ -18,7 +18,17 @@ function update(req, res) {
   });
 }
 
+function show(req, res) {
+  // find one album by id and send it back as JSON
+  db.TimeSlot.findById(req.params.id, function(err, foundTimeSlot) {
+    if(err) { console.log('timeSlotsController.show error', err); }
+    console.log('timeSlotsController.show responding with', foundTimeSlot);
+    res.json(foundTimeSlot);
+  });
+}
+
 module.exports = {
   index: index,
-  update: update
+  update: update,
+  show: show
 }
