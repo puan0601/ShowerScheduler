@@ -118,7 +118,7 @@ function handleNewUserSubmit(e) {
   var $emailNumberField = $modal.find("#userEmail");
 
   // get data from modal fields
-  // note the server expects the keys to be 'name', 'trackNumber' so we use those.
+  // note the server expects the keys to be 'name', 'email' so we use those.
   var dataToPost = {
     name: $userNameField.val(),
     email: $emailNumberField.val()
