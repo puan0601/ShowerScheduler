@@ -5,6 +5,12 @@ $(document).ready(function(){
   console.log("app.js is loaded!");
 
   $usersList = $(".reserved-times-list");
+  $.ajax({
+    method: 'GET',
+    url: '/api/users',
+    success: handleUsersSuccess,
+    error: handleUsersError
+  });
 
 // this is the ajax request that handles populating the times listed in seed.js onto the main page
   $.ajax({
@@ -73,14 +79,6 @@ function renderAllTimeSlotsSuccess(json) {
       </div>
     `);
 
-    // $(".reserved-times-list").append(`
-    //   <hr>
-    //       <p>
-    //         <b>${json[i].time}</b>
-    //         by ${json[i].user}
-    //         <button type="button" name="button" class="deleteBtn btn btn-danger pull-right" data-time-id=${user._id}>Delete</button>
-    //       </p>
-    //   `);
   }
 
 
@@ -132,7 +130,35 @@ function deleteUserSuccess(json) {
   render();
 }
 
+function deleteUserError(json) {
+  console.log("Error with delete user button"); // THIS FUNCTION CAN BE DELETED
+}
 
+
+function getUserHtml(user) {
+  return `<hr>
+          <p>
+            <b>TIME</b>
+            has been reserved by ${user.name}
+            <button type="button" name="button" class="deleteBtn btn btn-danger pull-right" data-time-id=${user._id}>Delete</button>
+          </p>`;
+}
+
+
+function getAllUsersHtml(users) {
+  return users.map(getUserHtml).join("");
+}
+
+
+function handleUsersSuccess(json) {
+  allUsers = json;
+  render();
+}
+
+function handleUsersError(e) {
+  console.log('uh oh');
+  $('.reserved-times-list').text('Failed to load users, is the server working?');
+}
 
 // helper function to render all posts to view
 // note: we empty and re-render the collection each time our post data changes
@@ -146,7 +172,4 @@ function render () {
 };
 
 
-function getAllUsersHtml(users) {
-  return users.map(getUserHtml).join("");
-}
 
