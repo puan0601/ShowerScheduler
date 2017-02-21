@@ -12,18 +12,18 @@ $(document).ready(function(){
     error: renderAllTimesSlotsError
   });
 
-  $(".save-user").on("click", function(e) {
-    e.preventDefault();
-    console.log("save button clicked!");
-
-    var formData = $(this).serialize();
-    console.log("formData", formData);
-    $.post("/api/users", formData, function(user) {
-      console.log("user after POST", user);
-      renderAlbum(user);  //render the server's response
-    });
-    $(this).trigger("reset");
-  });
+  // $(".save-user").on("click", function(e) {
+  //   e.preventDefault();
+  //   console.log("save button clicked!");
+  //
+  //   var formData = $(this).serialize();
+  //   console.log("formData", formData);
+  //   $.post("/api/users", formData, function(user) {
+  //     console.log("user after POST", user);
+  //     renderAlbum(user);  //render the server's response
+  //   });
+  //   $(this).trigger("reset");
+  // });
 
     // catch and handle the click on an add song button
     $(".time-table").on("click", ".schedule-button", handleSelectTimeClick);
@@ -76,6 +76,19 @@ function renderAllTimeSlotsSuccess(json) {
 
     `);
   }
+  $(".time-table").on("click", ".save-user", function(e) {
+    e.preventDefault();
+
+    console.log("save button clicked!");
+
+    var formData = $('.entry-form').serialize();
+    console.log("formData", formData);
+    $.post("/api/users", formData, function(user) {
+      console.log("user after POST", user);
+      // renderAlbum(user);  //render the server's response
+    });
+    $(this).trigger("reset");
+  });
 }
 
 function renderAllTimesSlotsError(e) {
