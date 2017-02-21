@@ -17,14 +17,13 @@ var express = require("express"),
   app.get("/api", function apiIndex(req, res) {
     res.json({
       documentationUrl: "#",
-      baseUrl: "http://cryptic-brushlands-17416.herokuapp.com/",
+      baseUrl: "http://showerly.herokuapp.com/",
       endpoints: [
 
         {method: "GET", path: "/api", description: "Describes all available endpoints"},
       // users below
         {method: "GET", path: "/api/users", description: "Get a list of users"},
         {method: "POST", path: "/api/users", description: "Create a new user"},
-
 
         {method: "GET", path: "/api/users/:id", description: "Get info on a specific user by id"},
         {method: "PUT", path: "/api/users/:id", description: "Update info on a specific user by id"},
