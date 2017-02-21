@@ -14,7 +14,7 @@ var express = require("express"),
 
   app.get("/api", function apiIndex(req, res) {
     res.json({
-      documentationUrl: "#",
+      documentationUrl: "http://showerly.herokuapp.com/api",
       baseUrl: "http://showerly.herokuapp.com/",
       endpoints: [
 
