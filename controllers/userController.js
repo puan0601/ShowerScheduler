@@ -37,8 +37,11 @@ function create(req, res) {
 
   db.User.create(req.body, function(err, user) {
     if (err) { console.log('error', err); }
-    console.log(user);
-    res.json(user);
+    db.TimeSlot.findOne({ 'time': user.time },function(err, foundTimeslot){
+      foundTimeslot.user = user;
+      console.log("time slot:", foundTimeslot);
+      res.json(foundTimeslot);
+    });
   });
 }
 
